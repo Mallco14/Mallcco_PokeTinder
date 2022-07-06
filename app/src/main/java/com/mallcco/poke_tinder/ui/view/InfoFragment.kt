@@ -1,13 +1,14 @@
 package com.mallcco.poke_tinder.ui.view
 
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.mallcco.poke_tinder.databinding.FragmentInfoBinding
 
 import com.mallcco.poke_tinder.ui.viewmodel.InfoViewModel
 
-class InfoFragment : BaseFragment<FragmentInfoBinding>(FragmentInfoBinding::inflate) {
+class InfoFragment(override val it: String) : BaseFragment<FragmentInfoBinding>(FragmentInfoBinding::inflate) {
 
     private lateinit var viewModel: InfoViewModel
 
@@ -28,9 +29,10 @@ class InfoFragment : BaseFragment<FragmentInfoBinding>(FragmentInfoBinding::infl
         webView.settings.javaScriptEnabled = true
 
         webView.webViewClient = PokemonWebClient()
-        savedInstanceState?.let {
-            webView.restoreState(it)
-        }?:webView.loadUrl(url)
+
+        viewModel.getUrlPokemon().observe(viewLifecycleOwner) {
+            webView.loadUrl(it)
+        }
     }
 
     inner class PokemonWebClient: WebViewClient() {
@@ -40,5 +42,4 @@ class InfoFragment : BaseFragment<FragmentInfoBinding>(FragmentInfoBinding::infl
                     "document.getElementByClassName('navbar top')[0].style.display='none'; })()")
         }
     }
-
 }

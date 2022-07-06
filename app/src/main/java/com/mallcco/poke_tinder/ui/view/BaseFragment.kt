@@ -9,6 +9,7 @@ import androidx.viewbinding.ViewBinding
 
 abstract class BaseFragment<B: ViewBinding>(val bindingFactory: (LayoutInflater)-> B): Fragment() {
 
+    abstract val it: String
     lateinit var binding: B
 
     override fun onCreate(savedInstanceState: Bundle?) {
